@@ -2,10 +2,7 @@ version: '3'
 
 services:
   nginx:
-    #컨텍스트 지정
-    context: ./requirements/nginx
-    #
-    build: Dockerfile
+    build: ./requirements/nginx/Dockerfile
     #nginx컨테이너의 443, 80번 포트를 호스트의 80, 443포트에 매핑합니다.
     ports:
       - "80:80"
@@ -14,8 +11,7 @@ services:
       - wordpress
 
   wordpress:
-    context: ./requirements/wordpress
-    build: Dockerfile
+    build: ./requirements/wordpress/Dockerfile
     ports:
       - "9000:9000"
     volumes:
@@ -23,8 +19,7 @@ services:
       - wordpress-files:/var/www/wordpress
 
   mariadb:
-    context: ./requirements/mariadb
-    build: Dockerfile
+    build: ./requirements/mariadb/Dockerfile
     ports:
       - "3306:3306"
     volumes:
