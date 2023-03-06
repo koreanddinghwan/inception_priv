@@ -1,6 +1,3 @@
-# alphaine vs debian
-
-
 # docker
 
 
