@@ -1,17 +1,12 @@
-FROM alpine:latest
+FROM alpine:3.14
 
 RUN apk update && \
     apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib && \
     rm -rf /var/cache/apk/*
 
-COPY ./conf/www.conf /etc/php7/php-fpm.d/www.conf
-
-COPY ./conf/wordpress /var/www/wordpress
-
-RUN chown -R www-data:www-data /var/www/wordpress && \
-    chmod -R 755 /var/www/wordpress
-
-EXPOSE 9000
+COPY wp-config.php /var/www/wordpress/
+COPY wordpress /var/www/wordpress/
 
 CMD ["php-fpm7", "-F"]
 
+EXPOSE 9000

@@ -2,32 +2,32 @@ version: '3'
 
 services:
   nginx:
-    build: ./requirements/nginx/Dockerfile
+    build: ./requirements/nginx
     #nginx컨테이너의 443, 80번 포트를 호스트의 80, 443포트에 매핑합니다.
     ports:
       - "80:80"
       - "443:443"
-    depends_on:
-      - wordpress
+    # depends_on:
+    #   - wordpress
 
-  wordpress:
-    build: ./requirements/wordpress/Dockerfile
-    ports:
-      - "9000:9000"
-    volumes:
-      - wordpress-db:/var/lib/mysql
-      - wordpress-files:/var/www/wordpress
+  # wordpress:
+  #   build: ./requirements/wordpress
+  #   ports:
+  #     - "9000:9000"
+  #   volumes:
+  #     - wordpress-db:/var/lib/mysql
+  #     - wordpress-files:/var/www/wordpress
 
-  mariadb:
-    build: ./requirements/mariadb/Dockerfile
-    ports:
-      - "3306:3306"
-    volumes:
-      - wordpress-db:/var/lib/mysql
+  # mariadb:
+  #   build: ./requirements/mariadb
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - wordpress-db:/var/lib/mysql
 
-volumes:
-  wordpress-db:
-  wordpress-files:
+# volumes:
+#   wordpress-db:
+#   wordpress-files:
 
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
