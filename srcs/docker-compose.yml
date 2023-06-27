@@ -1,32 +1,63 @@
 version: '3'
 
 services:
+  # nginx 컨테이너 정의
   nginx:
+    container_name: nginx
+    # nginx 이미지를 빌할 도커파일
     build: ./requirements/nginx
-    #nginx컨테이너의 443, 80번 포트를 호스트의 80, 443포트에 매핑합니다.
+    # nginx컨테이너의 443포트에 매핑합니다.
     ports:
       - "443:443"
-    # depends_on:
-    #   - wordpress
 
-  # wordpress:
-  #   build: ./requirements/wordpress
-  #   ports:
-  #     - "9000:9000"
-  #   volumes:
-  #     - wordpress-db:/var/lib/mysql
-  #     - wordpress-files:/var/www/wordpress
+    # 내부 네트워크 사용
+    networks:
+      - internal
+
+    # nginx도 wordpress데이터가 필요함.
+    volumes:
+      # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
+      - type: bind
+        #subject에서 요구로하는 경로로 바꿀 것.
+        source: /Users/ddinghwan/data/wordpress
+        #컨테이너 내부 dir
+        target: /var/www/html
+
+    # nginx매핑은 wordpress가 먼저.
+    depends_on:
+      - wordpress
+
+  # wordpress 서비스 정의
+  wordpress:
+    # https://docs.docker.com/engine/reference/run/
+    # container_name으로 컨테이너 내부에서 dns처럼 식별할 수 있음.
+    container_name: wordpress
+    # wordpress 이미지 빌드할 도커파일
+    build: ./requirements/wordpress
+
+    # 내부 네트워크 사용
+    networks:
+      - internal
+    volumes:
+      # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
+      - type: bind
+        #subject에서 요구로하는 경로로 바꿀 것.
+        source: /Users/ddinghwan/data/wordpress
+        #컨테이너 내부 dir
+        target: /var/www/html
+
+    # wordpress는 mariadb가 켜져있어야함.
+    # depends_on:
+    #   - mariadb
 
   # mariadb:
-  #   build: ./requirements/mariadb
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - wordpress-db:/var/lib/mysql
+    # container_name: mariadb
+    # build: ./requirements/mariadb
+    # ports:
+    #   - "3306:3306"
+    # volumes:
+    #   - wordpress-db:/var/lib/mysql
 
-# volumes:
-#   wordpress-db:
-#   wordpress-files:
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
