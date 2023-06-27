@@ -25,22 +25,31 @@
 #왜냐하면, 도커 네트워크에서는 같은 네트워크에 속한 모든 컨테이너가 모든 포트를 통해 통신할 수 있기 때문이다.
 
 #컨테이너에서 실제 포트를 열기위해선 -p 옵션으로 docker run을 수행한다.
-FROM alpine:3.14
+FROM alpine:3.18
 
 # Update and install necessary packages
-RUN apk update && \
-    apk add nginx openssl
+RUN apk update 
+RUN apk add nginx openssl
 
 # Create SSL certificate and key
-RUN openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 \
-    -subj "/C=US/ST=California/L=San Francisco/O=42/CN=mydomain.com" \
+# RUN openssl req -x509 \
+# 	-newkey rsa:2048 \
+# 	-days 365 -nodes -x509 \
+#     -subj "/C=US/ST=California/L=San Francisco/O=42/CN=localhost" \
+#     -keyout /etc/ssl/private/nginx-selfsigned.key \
+#     -out /etc/ssl/certs/nginx-selfsigned.crt
+
+RUN openssl req -x509 \
     -keyout /etc/ssl/private/nginx-selfsigned.key \
-    -out /etc/ssl/certs/nginx-selfsigned.crt
+    -out /etc/ssl/certs/nginx-selfsigned.crt \
+	-newkey rsa:2048 -nodes -sha256 \
+	-subj '/CN=localhost' -extensions EXT -config <( \
+	printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 
 # Copy the nginx configuration file
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-# Expose ports 80 and 443
+# Expose ports 443
 EXPOSE 443
 
 # Start nginx
