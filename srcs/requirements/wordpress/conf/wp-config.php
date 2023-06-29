@@ -1,10 +1,12 @@
 <?php
+/** MySQL database name */
+define( 'DB_NAME', 'wordpress' );
 
 /** MySQL database username */
-define( 'DB_USER', 'root' );
+define( 'DB_USER', 'myukang' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', 'root' );
+define( 'DB_PASSWORD', '0000' );
 
 /** MySQL hostname */
 define( 'DB_HOST', 'mariadb' );
