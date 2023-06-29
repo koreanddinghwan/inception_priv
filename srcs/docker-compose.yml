@@ -10,6 +10,9 @@ services:
     ports:
       - "443:443"
 
+    environment:
+      - "DOMAIN_NAME=$DOMAIN_NAME"
+
     # 내부 네트워크 사용
     networks:
       - internal
@@ -19,7 +22,7 @@ services:
       # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
       - type: bind
         #subject에서 요구로하는 경로로 바꿀 것.
-        source: /Users/ddinghwan/data/wordpress
+        source: "$VOLUMEDIR/wordpress"
         #컨테이너 내부 dir
         target: /var/www/html
 
@@ -42,11 +45,18 @@ services:
       # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
       - type: bind
         #subject에서 요구로하는 경로로 바꿀 것.
-        source: /Users/ddinghwan/data/wordpress
+        source: "$VOLUMEDIR/wordpress"
         #컨테이너 내부 dir
         target: /var/www/html
 
-      #wordpress는 mariadb가 켜져있어야함.
+    environment:
+      - "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD"
+      - "MYSQL_USER=$MYSQL_USER"
+      - "MYSQL_PASSWORD=$MYSQL_PASSWORD"
+      - "MYSQL_DATABASE=$MYSQL_DATABASE"
+      - "MYSQL_HOST=$MYSQL_HOST"
+
+    #wordpress는 mariadb가 켜져있어야함.
     depends_on:
       - mariadb
 
@@ -60,7 +70,7 @@ services:
       # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
       - type: bind
         #subject에서 요구로하는 경로로 바꿀 것.
-        source: /Users/ddinghwan/data/wordpress-db
+        source: "$VOLUMEDIR/wordpress-db"
         #컨테이너 내부 dir
         target: /var/lib/mysql
 
