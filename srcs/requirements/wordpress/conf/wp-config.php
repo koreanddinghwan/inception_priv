@@ -1,15 +1,15 @@
 <?php
 /** MySQL database name */
-define( 'DB_NAME', 'wordpress' );
+define( 'DB_NAME', getenv('MYSQL_DATABASE') );
 
 /** MySQL database username */
-define( 'DB_USER', 'myukang' );
+define( 'DB_USER', getenv('MYSQL_USER') );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', '0000' );
+define( 'DB_PASSWORD', getenv('MYSQL_PASSWORD') ) );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'mariadb' );
+define( 'DB_HOST', getenv('MYSQL_HOST') );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );
