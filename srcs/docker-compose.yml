@@ -48,6 +48,10 @@ services:
       - "DB_USER=$DB_USER"
       - "DB_PASSWORD=$DB_PASSWORD"
       - "DB_HOST=$DB_HOST"
+      - "REDIS_DATABASE=$REDIS_DATABASE"
+      - "REDIS_HOST=$REDIS_HOST"
+      - "REDIS_PORT=$REDIS_PORT"
+      - "REDIS_PASSWORD=$REDIS_PASSWORD"
 
     # 내부 네트워크 사용
     networks:
@@ -63,6 +67,7 @@ services:
       #wordpress는 mariadb가 켜져있어야함.
     depends_on:
       - mariadb
+      - redis
 
   mariadb:
     container_name: mariadb
@@ -78,12 +83,19 @@ services:
         #컨테이너 내부 dir
         target: /var/lib/mysql
 
+  #bonuses
   resume:
     container_name: resume
     build: ./requirements/bonus/resume
-
     networks:
       - internal
+
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis
+    networks:
+      - internal
+
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
