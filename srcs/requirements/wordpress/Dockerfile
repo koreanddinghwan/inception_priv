@@ -20,6 +20,7 @@ COPY ./conf/www.conf /etc/php81/php-fpm.d
 # wordpress를 실행하기 위한 php 확장기능 설치
 RUN apk add \
 	php-mysqlnd \
+	php-common \
 	php-mysqli \
 	php-mbstring \
 	php-json \

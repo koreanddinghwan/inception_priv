@@ -6,6 +6,10 @@ services:
     container_name: nginx
     # nginx 이미지를 빌할 도커파일
     build: ./requirements/nginx
+
+    environment:
+      - "DOMAIN_NAME=$DOMAIN_NAME"
+
     # nginx컨테이너의 443포트에 매핑합니다.
     ports:
       - "443:443"
@@ -29,6 +33,7 @@ services:
     # nginx매핑은 wordpress가 먼저.
     depends_on:
       - wordpress
+      - resume
 
   # wordpress 서비스 정의
   wordpress:
@@ -37,6 +42,15 @@ services:
     container_name: wordpress
     # wordpress 이미지 빌드할 도커파일
     build: ./requirements/wordpress
+
+    env_file:
+      - .env
+
+    environment:
+      - "DB_NAME=$DB_NAME"
+      - "DB_USER=$DB_USER"
+      - "DB_PASSWORD=$DB_PASSWORD"
+      - "DB_HOST=$DB_HOST"
 
     # 내부 네트워크 사용
     networks:
@@ -73,6 +87,13 @@ services:
         source: "$VOLUMEDIR/wordpress-db"
         #컨테이너 내부 dir
         target: /var/lib/mysql
+
+  resume:
+    container_name: resume
+    build: ./requirements/bonus/resume
+
+    networks:
+      - internal
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
