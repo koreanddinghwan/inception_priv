@@ -93,7 +93,6 @@ services:
     container_name: vsftpd
     build: ./requirements/bonus/ftp
     ports:
-      - "20:20"
       - "21:21"
     volumes:
       # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
@@ -101,7 +100,11 @@ services:
         #subject에서 요구로하는 경로로 바꿀 것.
         source: "$VOLUMEDIR/wordpress"
         #컨테이너 내부 dir
-        target: /home/vsftpd
+        target: /home/vsftpd/myukang
+
+    environment:
+      - "FTP_USER=$FTP_USER"
+      - "FTP_PASS=$FTP_PASS"
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
