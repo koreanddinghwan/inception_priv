@@ -1,10 +1,13 @@
-FROM alpine:3.18
+FROM alpine:3.17
 
 RUN apk update && \
-	apk add vsftpd dumb-init
+	apk add vsftpd db-utils dumb-init
 
-COPY ./conf/vsftpd.conf /etc/vsftpd/vsftpd.conf
+COPY conf/vsftpd.conf /etc/vsftpd
+COPY tools/run-vsftpd.sh /tmp/run-vsftpd.sh
 
-CMD ["vsftpd", "/etc/vsftpd/vsftpd.conf"]
+#dumb-init
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
-EXPOSE 20 21
+CMD ["/bin/ash", "/tmp/run-vsftpd.sh"]
+EXPOSE 21

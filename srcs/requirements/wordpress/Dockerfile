@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.17
 
 # wordpress실행을 위한 php와 mysql-client 설치
 RUN apk update && \
@@ -37,8 +37,7 @@ RUN apk add \
 	php-iconv \
 	php-gd \
 	php-intl \
-	php-curl \
-	php82-pecl-imagick
+	php-curl 
 
 # wordpress를 실행하기 위한 php 확장기능 설치
 # php-mysqli: mysql과 연동하기 위한 확장기능
