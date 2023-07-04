@@ -1,40 +1,33 @@
 version: '3'
 
 services:
-  # nginx 컨테이너 정의
   nginx:
     container_name: nginx
-    # nginx 이미지를 빌할 도커파일
     build: ./requirements/nginx
     environment:
       - "DOMAIN_NAME=$DOMAIN_NAME"
-    # nginx컨테이너의 443포트에 매핑합니다.
     ports:
       - "443:443"
-    # 내부 네트워크 사용
     networks:
       - internal
 
-    # nginx도 wordpress데이터가 필요함.
     volumes:
-      # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
       - type: bind
-        #subject에서 요구로하는 경로로 바꿀 것.
         source: "$VOLUMEDIR/wordpress"
-        #컨테이너 내부 dir
         target: /var/www/html
+
+      - type: bind
+        source: "$VOLUMEDIR/adminer"
+        target: /var/www/adminer
 
     # nginx매핑은 wordpress가 먼저.
     depends_on:
       - wordpress
       - resume
+      - adminer
 
-  # wordpress 서비스 정의
   wordpress:
-    # https://docs.docker.com/engine/reference/run/
-    # container_name으로 컨테이너 내부에서 dns처럼 식별할 수 있음.
     container_name: wordpress
-    # wordpress 이미지 빌드할 도커파일
     build: ./requirements/wordpress
     env_file:
       - .env
@@ -46,18 +39,13 @@ services:
       - "REDIS_DATABASE=$REDIS_DATABASE"
       - "REDIS_HOST=$REDIS_HOST"
       - "REDIS_PORT=$REDIS_PORT"
-    # 내부 네트워크 사용
     networks:
       - internal
     volumes:
-      # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
       - type: bind
-        #subject에서 요구로하는 경로로 바꿀 것.
         source: "$VOLUMEDIR/wordpress"
-        #컨테이너 내부 dir
         target: /var/www/html
 
-    #wordpress는 mariadb가 켜져있어야함.
     depends_on:
       - mariadb
       - redis
@@ -65,15 +53,11 @@ services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
-    # 내부 네트워크 사용
     networks:
       - internal
     volumes:
-      # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
       - type: bind
-        #subject에서 요구로하는 경로로 바꿀 것.
         source: "$VOLUMEDIR/wordpress-db"
-        #컨테이너 내부 dir
         target: /var/lib/mysql
 
   #bonuses
@@ -95,16 +79,23 @@ services:
     ports:
       - "21:21"
     volumes:
-      # bind mount통해서 호스트 컴퓨터 파일을 컨테이너 내부 볼륨에 마운트
       - type: bind
-        #subject에서 요구로하는 경로로 바꿀 것.
         source: "$VOLUMEDIR/wordpress"
-        #컨테이너 내부 dir
         target: /home/vsftpd/myukang
 
     environment:
       - "FTP_USER=$FTP_USER"
       - "FTP_PASS=$FTP_PASS"
+
+  adminer:
+    container_name: adminer
+    build: ./requirements/bonus/adminer
+    networks:
+      - internal
+    volumes:
+      - type: bind
+        source: "$VOLUMEDIR/adminer"
+        target: /var/www/adminer
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
