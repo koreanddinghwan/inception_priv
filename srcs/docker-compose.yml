@@ -97,6 +97,13 @@ services:
         source: "$VOLUMEDIR/adminer"
         target: /var/www/adminer
 
+  preswot:
+    container_name: preswot
+    build: ./requirements/bonus/preswot
+    networks:
+      - internal
+
+
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
   internal:
