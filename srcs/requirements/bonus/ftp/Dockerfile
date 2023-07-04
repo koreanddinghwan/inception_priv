@@ -13,4 +13,4 @@ COPY tools/run-vsftpd.sh /tmp/run-vsftpd.sh
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 CMD ["/bin/ash", "/tmp/run-vsftpd.sh"]
-EXPOSE 21
+EXPOSE 21 10090-10100
