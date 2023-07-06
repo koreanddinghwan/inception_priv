@@ -18,6 +18,13 @@ define( 'DB_CHARSET', 'utf8mb4' );
 /** The Database Collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
+//redis
+define('WP_REDIS_HOST', getenv('REDIS_HOST'));
+define('WP_REDIS_DATABASE', getenv('REDIS_DATABASE'));
+define('WP_RESID_PREFIX', getenv('REDIS_PREFIX'));
+define('WP_REDIS_PORT', getenv('REDIS_PORT'));
+/* define('WP_REDIS_PASSWORD', getenv('REDIS_PASSWORD')); */
+
 /**#@+
  * Authentication Unique Keys and Salts.
  *

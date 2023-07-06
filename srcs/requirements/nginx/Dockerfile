@@ -25,7 +25,7 @@
 #왜냐하면, 도커 네트워크에서는 같은 네트워크에 속한 모든 컨테이너가 모든 포트를 통해 통신할 수 있기 때문이다.
 
 #컨테이너에서 실제 포트를 열기위해선 -p 옵션으로 docker run을 수행한다.
-FROM alpine:3.18
+FROM alpine:3.17
 
 # Update and install necessary packages
 RUN apk update 
@@ -45,5 +45,5 @@ COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 443
 
 # Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g",  "daemon off;"]
 

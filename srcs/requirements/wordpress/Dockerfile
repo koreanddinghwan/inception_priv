@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.17
 
 # wordpress실행을 위한 php와 mysql-client 설치
 RUN apk update && \
@@ -6,8 +6,9 @@ RUN apk update && \
 	php \ 
 	php-fpm \ 
 	mariadb-client \
-	openrc \
-	curl
+	curl \
+	wget \
+	dumb-init 
 # php
 # php-fpm: php를 실행하기 위한 FastCGI Process Manager
 # mysql-client: mysql 서버에 접속하기 위한 클라이언트
@@ -15,6 +16,10 @@ RUN apk update && \
 
 # cgi 프로세스 설정용 www.conf파일을 복사
 COPY ./conf/www.conf /etc/php81/php-fpm.d
+COPY ./tools/wp.sh /tmp/wp.sh
+COPY ./conf/wp-config.php /tmp/wp-config.php
+
+RUN wget https://ko.wordpress.org/latest-ko_KR.tar.gz -O /tmp/wordpress.tar.gz
 
 # https://make.wordpress.org/hosting/handbook/server-environment/ 참고. 필수 extension은 php-mysqli와 php-json임.
 # wordpress를 실행하기 위한 php 확장기능 설치
@@ -37,8 +42,7 @@ RUN apk add \
 	php-iconv \
 	php-gd \
 	php-intl \
-	php-curl \
-	php82-pecl-imagick
+	php-curl 
 
 # wordpress를 실행하기 위한 php 확장기능 설치
 # php-mysqli: mysql과 연동하기 위한 확장기능
@@ -46,8 +50,6 @@ RUN apk add \
 # php-json: json 처리를 위한 확장기능
 # php-session: 세션 처리를 위한 확장기능
 
-# php-fpm non-daemon mode 설정
-# 참고 https://linux.die.net/man/8/php-fpm
-CMD ["php-fpm81", "-F"]
-
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/bin/ash", "/tmp/wp.sh"]
 EXPOSE 9000
