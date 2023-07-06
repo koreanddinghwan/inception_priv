@@ -1,17 +1,17 @@
-init:
-	@echo "init"
-	#check the wordpress file is exist in /home/myukang/data
+all: up
 
+up: 
+	@echo "up"
+	./srcs/requirements/tools/init.sh
+	docker-compose -f ./srcs/docker-compose.yml up --build -d
 
+rm: down
+	@echo "fclean"
+	rm -rf /Users/myukang/data
 
-all:
+down:
+	@echo "clean"
+	docker-compose -f ./srcs/docker-compose.yml down
+	docker system prune -a
 
-
-
-fclean:
-
-
-clean:
-
-
-re: fclean all
+re: rm up
