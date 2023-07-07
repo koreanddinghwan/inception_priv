@@ -19,7 +19,7 @@ COPY ./conf/www.conf /etc/php81/php-fpm.d
 COPY ./tools/wp.sh /tmp/wp.sh
 COPY ./conf/wp-config.php /tmp/wp-config.php
 
-RUN wget https://ko.wordpress.org/latest-ko_KR.tar.gz -O /tmp/wordpress.tar.gz
+RUN wget https://wordpress.org/latest.tar.gz -O /tmp/wordpress.tar.gz
 
 # https://make.wordpress.org/hosting/handbook/server-environment/ 참고. 필수 extension은 php-mysqli와 php-json임.
 # wordpress를 실행하기 위한 php 확장기능 설치
