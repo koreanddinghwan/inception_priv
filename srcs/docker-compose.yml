@@ -25,7 +25,6 @@ services:
       - wordpress
       - resume
       - adminer
-      - preswot
 
   wordpress:
     container_name: wordpress
@@ -103,25 +102,6 @@ services:
       - type: bind
         source: "$VOLUMEDIR/adminer"
         target: /var/www/adminer
-
-  preswot:
-    container_name: preswot
-    build: ./requirements/bonus/preswot
-    ports:
-      - "4000:4000"
-    networks:
-      - internal
-    environment:
-      - "COOKIE_SECRET=$COOKIE_SECRET"
-      - "DBIP=$DBIP"
-      - "DBPORT=$DBPORT"
-      - "DBUSER=$DBUSER"
-      - "DBNAME=$DBNAME"
-      - "DBTYPE=$DBTYPE"
-    volumes:
-      - type: bind
-        source: "$VOLUMEDIR/preswot"
-        target: /var/www/preswot
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
