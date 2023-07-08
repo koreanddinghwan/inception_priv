@@ -7,11 +7,11 @@ up:
 
 rm: down
 	@echo "fclean"
-	rm -rf /Users/myukang/data
+	./srcs/requirements/tools/clear.sh
+	docker system prune -a
 
 down:
 	@echo "clean"
 	docker-compose -f ./srcs/docker-compose.yml down
-	docker system prune -a
 
 re: rm up

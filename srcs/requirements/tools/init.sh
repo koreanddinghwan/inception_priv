@@ -1,4 +1,4 @@
-source ../../.env
+source srcs/.env
 
 echo $VOLUMEDIR
 
