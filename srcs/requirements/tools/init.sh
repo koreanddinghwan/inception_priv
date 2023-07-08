@@ -1,10 +1,14 @@
-if [ ! -d /Users/myukang/data ]; then
+source ../../.env
+
+echo $VOLUMEDIR
+
+if [ ! -d $VOLUMEDIR ]; then
 	echo "make data directory"
-	mkdir /Users/myukang/data
-	mkdir /Users/myukang/data/wordpress
-	mkdir /Users/myukang/data/wordpress-db
-	mkdir /Users/myukang/data/adminer
-	mkdir /Users/myukang/data/preswot
+	mkdir $VOLUMEDIR 
+	mkdir $VOLUMEDIR/wordpress
+	mkdir $VOLUMEDIR/wordpress-db
+	mkdir $VOLUMEDIR/adminer
+	mkdir $VOLUMEDIR/preswot
 else
 	echo "data directory already exists"
 fi
