@@ -11,8 +11,8 @@ if [ ! -d /var/lib/mysql/mysql ]; then
 	sleep 5
 
 	mysql -e "
-	CREATE DATABASE wordpress;
-	CREATE DATABASE preswot;
+	CREATE DATABASE ${WP_DBNAME};
+	CREATE DATABASE ${CHAT_SERVER_DBNAME};
 
 	CREATE USER ${DB_USER}@'%' IDENTIFIED BY '${DB_PASSWORD}';
 	GRANT ALL PRIVILEGES ON *.* TO ${DB_USER}@'%';
