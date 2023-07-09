@@ -9,6 +9,7 @@ if [ ! -d $VOLUMEDIR ]; then
 	mkdir $VOLUMEDIR/wordpress-db
 	mkdir $VOLUMEDIR/adminer
 	mkdir $VOLUMEDIR/preswot
+	mkdir $VOLUMEDIR/chatServer
 else
 	echo "data directory already exists"
 fi

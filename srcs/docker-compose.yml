@@ -25,6 +25,7 @@ services:
       - wordpress
       - resume
       - adminer
+      - chatServer
 
   wordpress:
     container_name: wordpress
@@ -102,6 +103,16 @@ services:
       - type: bind
         source: "$VOLUMEDIR/adminer"
         target: /var/www/adminer
+
+  chatServer:
+    container_name: chatServer
+    build: ./requirements/bonus/chatServer
+    networks:
+      - internal
+    volumes:
+      - type: bind
+        source: "$VOLUMEDIR/chatServer"
+        target: /var/chatServer
 
 #기본적으로 컨테이너간 통신은 도커 bridge 네트워크를 사용한다.
 networks:
