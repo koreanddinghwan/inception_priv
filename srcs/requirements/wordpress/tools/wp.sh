@@ -11,7 +11,7 @@ mv /tmp/wp-config.php /var/www/html/wp-config.php
 keys_and_salts=$(curl -sS "https://api.wordpress.org/secret-key/1.1/salt/")
 
 # Replace the existing keys and salts in wp-config.php with the new ones
-sed "s/#REPLACE_ME/$keys_and_salts/" wp-config.php
+sed -i "s/#REPLACE_ME/$keys_and_salts/" wp-config.php
 
 # php-fpm non-daemon mode 설정
 # 참고 https://linux.die.net/man/8/php-fpm
