@@ -8,6 +8,7 @@ RUN apk update && \
 	mariadb-client \
 	curl \
 	wget \
+	ed \
 	dumb-init 
 # php
 # php-fpm: php를 실행하기 위한 FastCGI Process Manager

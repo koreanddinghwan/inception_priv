@@ -34,7 +34,7 @@ define('WP_REDIS_PORT', getenv('REDIS_PORT'));
  * @since 2.6.0
  */
 
-#REPLACE_ME
+REPLACE_ME
 
 
 $table_prefix = 'wp_';
