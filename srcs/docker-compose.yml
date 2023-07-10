@@ -61,7 +61,6 @@ services:
       - "DB_ADMIN=$DB_ADMIN"
       - "DB_ADMIN_PASSWORD=$DB_ADMIN_PASSWORD"
       - "WP_DB_NAME=$WP_DB_NAME"
-      - "CHAT_SERVER_DBNAME=$CHAT_SERVER_DBNAME"
     networks:
       - internal
     volumes:
