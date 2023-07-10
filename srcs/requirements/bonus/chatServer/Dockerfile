@@ -1,17 +1,13 @@
-FROM alpine:3.17
+FROM alpine:3.17 AS npmbase
 RUN apk update && \
 	apk add nodejs \ 
 	npm \
 	git \
 	dumb-init
 
-COPY ./conf/chatServer.sh /tmp/chatServer.sh
-
-RUN git clone https://github.com/koreanddinghwan/chatServer /tmp
-
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+COPY ./tools/chatServer.sh /tmp/chatServer.sh
+
 CMD ["/bin/ash", "/tmp/chatServer.sh"]
-
-
-
-
+EXPOSE 4001 4002

@@ -1,15 +1,13 @@
-FROM alpine:3.17
-
+FROM alpine:3.17 AS yarnbase
 RUN apk update && \
-	apk add nodejs yarn git
+	apk add nodejs \
+	yarn \
+	git \
+	dumb-init
 
-WORKDIR /home
-RUN git clone https://github.com/koreanddinghwan/resume_test 
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
-WORKDIR /home/resume_test
-#install deps
-RUN yarn install
-RUN yarn build
+COPY ./tools/resume.sh /tmp/resume.sh
 
-CMD ["yarn", "start"]
+CMD ["/bin/ash", "/tmp/resume.sh"]
 EXPOSE 3000

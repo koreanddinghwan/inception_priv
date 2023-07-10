@@ -25,7 +25,7 @@ services:
       - wordpress
       - resume
       - adminer
-      - chatServer
+      - chatserver
 
   wordpress:
     container_name: wordpress
@@ -72,6 +72,10 @@ services:
     build: ./requirements/bonus/resume
     networks:
       - internal
+    volumes:
+      - type: bind
+        source: "$VOLUMEDIR/resume"
+        target: /var/resume_test
 
   redis:
     container_name: redis
@@ -104,8 +108,8 @@ services:
         source: "$VOLUMEDIR/adminer"
         target: /var/www/adminer
 
-  chatServer:
-    container_name: chatServer
+  chatserver:
+    container_name: chatserver
     build: ./requirements/bonus/chatServer
     networks:
       - internal
