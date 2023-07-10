@@ -33,10 +33,11 @@ services:
     env_file:
       - .env
     environment:
-      - "DB_NAME=$DB_NAME"
+      #usage in wp-config.php
+      - "WP_DB_NAME=$WP_DB_NAME"
+      - "DB_HOST=$DB_HOST"
       - "DB_USER=$DB_USER"
       - "DB_PASSWORD=$DB_PASSWORD"
-      - "DB_HOST=$DB_HOST"
       - "REDIS_DATABASE=$REDIS_DATABASE"
       - "REDIS_HOST=$REDIS_HOST"
       - "REDIS_PORT=$REDIS_PORT"
@@ -59,6 +60,8 @@ services:
       - "DB_PASSWORD=$DB_PASSWORD"
       - "DB_ADMIN=$DB_ADMIN"
       - "DB_ADMIN_PASSWORD=$DB_ADMIN_PASSWORD"
+      - "WP_DB_NAME=$WP_DB_NAME"
+      - "CHAT_SERVER_DBNAME=$CHAT_SERVER_DBNAME"
     networks:
       - internal
     volumes:
@@ -111,6 +114,8 @@ services:
   chatserver:
     container_name: chatserver
     build: ./requirements/bonus/chatServer
+    env_file:
+      - .env
     networks:
       - internal
     volumes:
